@@ -13,6 +13,7 @@
     "@react-spring/three": "^10.0.3",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
+    "@vercel/analytics": "^1.5.0",
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.544.0",
     "react": "^18.3.1",
@@ -39,7 +40,6 @@
     "vite": "^7.1.7"
   },
   "engines": {
-  "node": ">=18"
-}
-
+    "node": ">=18"
+  }
 }
