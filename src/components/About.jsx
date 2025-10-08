@@ -41,7 +41,7 @@ const AboutSection = () => {
               Get to know me!
             </h2>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
-              I am <span className="font-semibold">Aruna Giri</span>, based in Brooklyn, New York and Harrisburg, Pennsylvania. I'm{" "}
+              I am <span className="font-semibold">Aruna Giri</span>, based in New York and Pennsylvania. I'm{" "}
               <span className="font-semibold">20 years old</span> and currently pursuing a{" "}
               <a
                 href="https://bulletins.nyu.edu/undergraduate/engineering/programs/computer-science-bs/"
