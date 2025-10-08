@@ -45,6 +45,10 @@ export default function Navbar() {
               isActive ? "text-blue-500" : "text-black dark:text-white"}>
               Projects
             </NavLink>
+            <NavLink to="/contact" className={({ isActive }) =>
+              isActive ? "text-blue-500" : "text-black dark:text-white"}>
+              Contact
+            </NavLink>
           </nav>
 
           {/* Dark mode toggle */}

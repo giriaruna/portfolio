@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import { Analytics } from "@vercel/analytics/next";
+import Contact from "./components/Contact";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/projects" element={<Projects />} />
           </Routes>
         </main>
+        <Contact />
 
         {/* contacts across full width */}
         <Footer />
