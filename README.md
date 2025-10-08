@@ -1,16 +1,40 @@
-# React + Vite
+# Aruna Giri - Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive portfolio website showcasing my projects, skills, and experience as a Computer Engineering student. Built with React, Three.js, and Tailwind CSS featuring interactive 3D elements and smooth animations.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[View Live Portfolio](https://portfolio-1-bay.vercel.app/)
 
-## React Compiler
+## 📋 Features
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Responsive Design** - Optimized for all devices and screen sizes
+- **Interactive 3D Elements** - Earth model and animations using Three.js
+- **Dark/Light Mode** - Toggle between themes with smooth transitions
+- **Contact Form** - Working contact form integrated with EmailJS
+- **Smooth Animations** - Framer Motion animations throughout the site
+- **Modern UI/UX** - Clean, professional design with Tailwind CSS
 
-## Expanding the ESLint configuration
+## 🛠️ Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend**: React 18, Vite
+- **Styling**: Tailwind CSS
+- **3D Graphics**: Three.js, React Three Fiber, React Three Drei
+- **Animations**: Framer Motion
+- **Form Handling**: EmailJS
+- **Icons**: React Icons
+- **Deployment**: Vercel
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/giriaruna/portfolio.git
+cd portfolio
