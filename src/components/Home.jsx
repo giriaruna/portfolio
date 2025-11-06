@@ -98,7 +98,7 @@ const Home = () => {
 
           {/* Links */}
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-4">
-            <a href="/Giri,Aruna.pdf" className="text-blue-400 underline hover:text-blue-200">Resume</a>
+            <a href="https://drive.google.com/file/d/1fA7f8__7bgjuR5XgDbKna8YtXpS2zO3h/view?usp=drive_link" className="text-blue-400 underline hover:text-blue-200">Resume</a>
             <a href="https://github.com/giriaruna" className="text-blue-400 underline hover:text-blue-200">GitHub</a>
             <a href="https://linkedin.com/in/giriaruna" className="text-blue-400 underline hover:text-blue-200">LinkedIn</a>
           </div>

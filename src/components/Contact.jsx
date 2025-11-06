@@ -2,65 +2,58 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 
-import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
 import { slideIn } from "../utils/motion";
 
 const Contact = () => {
   const formRef = useRef();
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    emailjs
-      .send(
+    try {
+      // Send to YOU (Aruna)
+      await emailjs.send(
         import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_ME,
         {
           from_name: form.name,
-          to_name: "Aruna Giri",
           from_email: form.email,
+          to_name: "Aruna Giri",
           to_email: "ag8876@nyu.edu",
           message: form.message,
         },
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
-
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-
-          alert("Ahh, something went wrong. Please try again.");
-        }
       );
+
+      // Send Auto-Reply to THEM
+      await emailjs.send(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_SENDER,
+        {
+          from_name: form.name,
+          to_name: form.name,
+          to_email: form.email,
+        },
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      );
+
+      alert("Thank you! Your message has been sent successfully.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,11 +68,7 @@ const Contact = () => {
               Contact 😊
             </h1>
 
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="mt-12 flex flex-col gap-8"
-            >
+            <form ref={formRef} onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
               <label className="flex flex-col">
                 <span className="text-gray-800 dark:text-white font-medium mb-4">Your Name</span>
                 <input
@@ -88,20 +77,22 @@ const Contact = () => {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="What's your good name?"
-                  className="bg-white dark:bg-gray-600 py-4 px-6 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-gray-900 dark:text-white rounded-lg outline-none border border-gray-300 dark:border-gray-500 font-medium focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                  className="bg-white dark:bg-gray-600 py-4 px-6 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-400 outline-none transition-colors"
                 />
               </label>
+
               <label className="flex flex-col">
-                <span className="text-gray-800 dark:text-white font-medium mb-4">Your email</span>
+                <span className="text-gray-800 dark:text-white font-medium mb-4">Your Email</span>
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="What's your web address?"
-                  className="bg-white dark:bg-gray-600 py-4 px-6 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-gray-900 dark:text-white rounded-lg outline-none border border-gray-300 dark:border-gray-500 font-medium focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+                  placeholder="What's your email?"
+                  className="bg-white dark:bg-gray-600 py-4 px-6 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-400 outline-none transition-colors"
                 />
               </label>
+
               <label className="flex flex-col">
                 <span className="text-gray-800 dark:text-white font-medium mb-4">Your Message</span>
                 <textarea
@@ -109,14 +100,14 @@ const Contact = () => {
                   name="message"
                   value={form.message}
                   onChange={handleChange}
-                  placeholder="What you want to say?"
-                  className="bg-white dark:bg-gray-600 py-4 px-6 placeholder:text-gray-500 dark:placeholder:text-gray-400 text-gray-900 dark:text-white rounded-lg outline-none border border-gray-300 dark:border-gray-500 font-medium focus:border-blue-500 dark:focus:border-blue-400 transition-colors resize-none"
+                  placeholder="What would you like to say?"
+                  className="bg-white dark:bg-gray-600 py-4 px-6 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-500 focus:border-blue-500 dark:focus:border-blue-400 outline-none transition-colors resize-none"
                 />
               </label>
 
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-lg transition-colors"
+                className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 py-3 px-8 rounded-xl text-white font-bold shadow-lg transition-colors"
               >
                 {loading ? "Sending..." : "Send"}
               </button>

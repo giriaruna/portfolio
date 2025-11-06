@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import ThemeToggle from "./Theme.Toggle";
 
 export default function Navbar() {
@@ -9,21 +8,27 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Show navbar when scrolling up or at top
+
       if (currentScrollY < lastScrollY || currentScrollY < 10) {
         setIsVisible(true);
       } else {
-        // Hide when scrolling down
         setIsVisible(false);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  // Smooth scroll function
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <header
@@ -34,30 +39,43 @@ export default function Navbar() {
       `}
     >
       <div className="flex justify-between items-center p-4">
-        {/* Same content as Option 1 */}
-        <NavLink to="/" className="w-10 h-10 rounded-lg bg-transparent items-center justify-center flex font-bold">
-          <p className="blue-gradient_text">AG</p>
-        </NavLink>
+        {/* Logo */}
+        <div
+          className="w-10 h-10 rounded-lg flex items-center justify-center font-bold cursor-pointer"
+          onClick={() => scrollToSection("home")}
+        >
+          <p className="blue-text-gradient">AG</p>
+        </div>
 
+        {/* Navigation links */}
         <nav className="flex text-lg gap-7 font-medium">
-          <NavLink to="/" className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-black dark:text-white hover:text-blue-500 transition-colors"}>
+          <button
+            onClick={() => scrollToSection("home")}
+            className="text-black dark:text-white hover:text-blue-500 transition-colors"
+          >
             Home
-          </NavLink>
-          <NavLink to="/about" className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-black dark:text-white hover:text-blue-500 transition-colors"}>
+          </button>
+          <button
+            onClick={() => scrollToSection("about")}
+            className="text-black dark:text-white hover:text-blue-500 transition-colors"
+          >
             About
-          </NavLink>
-          <NavLink to="/projects" className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-black dark:text-white hover:text-blue-500 transition-colors"}>
+          </button>
+          <button
+            onClick={() => scrollToSection("projects")}
+            className="text-black dark:text-white hover:text-blue-500 transition-colors"
+          >
             Projects
-          </NavLink>
-          <NavLink to="/contact" className={({ isActive }) =>
-            isActive ? "text-blue-500" : "text-black dark:text-white hover:text-blue-500 transition-colors"}>
+          </button>
+          <button
+            onClick={() => scrollToSection("contact")}
+            className="text-black dark:text-white hover:text-blue-500 transition-colors"
+          >
             Contact
-          </NavLink>
+          </button>
         </nav>
 
+        {/* Theme toggle */}
         <ThemeToggle />
       </div>
     </header>
