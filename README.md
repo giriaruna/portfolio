@@ -1,6 +1,8 @@
 # Aruna Giri - Portfolio Website
 
-A modern, responsive portfolio website showcasing my projects, skills, and experience as a Computer Engineering student. Built with React, Three.js, and Tailwind CSS featuring interactive 3D elements and smooth animations.
+A modern, responsive portfolio website showcasing my projects, skills, and 
+experience as a Computer Engineering student. Built with React, Three.js, and 
+Tailwind CSS featuring interactive 3D elements and smooth animations.
 
 ## 🚀 Live Demo
 

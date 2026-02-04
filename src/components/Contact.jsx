@@ -65,7 +65,7 @@ const Contact = () => {
             className="flex-[0.75] bg-gray-100 dark:bg-gray-700 p-8 rounded-2xl shadow-lg"
           >
             <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
-              Contact 😊
+              Contact 
             </h1>
 
             <form ref={formRef} onSubmit={handleSubmit} className="mt-12 flex flex-col gap-8">
