@@ -1,10 +1,9 @@
-import React, { Suspense, useRef, useMemo, useState, useEffect } from "react";
+import React, { Suspense, useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { a } from "@react-spring/three";
 import { OrbitControls } from "@react-three/drei";
-import { Link } from "react-router-dom";
 
-// Floating card animation
+// Floating card animation in the background
 const FloatingCard = () => {
   const mesh = useRef();
   useFrame(({ clock }) => {
@@ -15,17 +14,17 @@ const FloatingCard = () => {
     <a.mesh ref={mesh} position={[0, 0, 0]}>
       <boxGeometry args={[4, 2.5, 0.2]} />
       <meshStandardMaterial
-        color="#1e3a8a"
-        roughness={0.2}
-        metalness={0.7}
+        color="#1e40af"
+        roughness={0.1}
+        metalness={0.8}
         transparent
-        opacity={0.7}
+        opacity={0.5}
       />
     </a.mesh>
   );
 };
 
-// Twinkling stars
+// Twinkling stars background
 const TwinklingStars = ({ count = 500 }) => {
   const stars = useMemo(() => {
     const temp = [];
@@ -59,68 +58,76 @@ const TwinklingStars = ({ count = 500 }) => {
 };
 
 const Home = () => {
-  // Typewriter effect
-  const fullText = "to know me click here!!";
-  const [typedText, setTypedText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setTypedText(fullText.slice(0, index + 1));
-      index++;
-      if (index === fullText.length) clearInterval(interval);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section className="relative w-screen h-screen flex items-center justify-center bg-black">
+    <section className="relative w-screen h-screen flex items-center justify-center bg-black overflow-hidden">
       {/* 3D Star Background */}
       <Canvas className="absolute inset-0" camera={{ position: [0, 0, 20], fov: 60 }}>
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} />
         <Suspense fallback={null}>
           <TwinklingStars />
           <FloatingCard />
         </Suspense>
-        <OrbitControls enableZoom={false} />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
 
-      {/* Foreground Info Box */}
-      <div className="absolute z-10 max-w-4xl w-full flex flex-col md:flex-row items-center md:items-start bg-white bg-opacity-20 backdrop-blur-md shadow-lg rounded-xl p-8 gap-6 md:gap-10">
-        {/* Left side: text */}
+      {/* Glassmorphism Info Box */}
+      <div className="absolute z-10 max-w-5xl w-[90%] flex flex-col md:flex-row items-center bg-white bg-opacity-5 border border-white border-opacity-10 backdrop-blur-xl shadow-2xl rounded-3xl p-8 md:p-12 gap-10">
+        
+        {/* Left side: Professional Intro */}
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-5xl font-bold text-blue-400 mb-4">Hi, I'm Aruna Giri</h1>
-          <p className="text-lg md:text-xl text-slate-200 mb-4">
-            Hi, my name is Aruna Giri. I’m a Computer Engineering student at NYU Tandon School of Engineering with interests in machine learning, data science, and full-stack development.
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-2">
+            Aruna Giri
+          </h1>
+          <h2 className="text-xl md:text-2xl font-medium text-blue-400 mb-6 uppercase tracking-widest">
+            Computer Engineering | Class of 2026
+          </h2>
+          
+          <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
+            I am a student at <span className="text-white font-semibold">NYU Tandon</span> currently 
+            <span className="text-blue-400 font-bold"> seeking internship and full-time opportunities.</span> 
+            I love building full-stack web applications and using machine learning to turn complex data into real-world solutions.
           </p>
-          <p className="text-slate-200 mb-6">Welcome to my portfolio!</p>
 
-          {/* Links */}
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-4">
-            <a href="https://drive.google.com/file/d/1fA7f8__7bgjuR5XgDbKna8YtXpS2zO3h/view?usp=drive_link" className="text-blue-400 underline hover:text-blue-200">Resume</a>
-            <a href="https://github.com/giriaruna" className="text-blue-400 underline hover:text-blue-200">GitHub</a>
-            <a href="https://linkedin.com/in/giriaruna" className="text-blue-400 underline hover:text-blue-200">LinkedIn</a>
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+            <a 
+              href="https://drive.google.com/file/d/1fA7f8__7bgjuR5XgDbKna8YtXpS2zO3h/view?usp=drive_link" 
+              className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-500 transition-all transform hover:scale-105 shadow-lg"
+              target="_blank" rel="noreferrer"
+            >
+              View Resume
+            </a>
+            <div className="flex gap-4">
+              <a 
+                href="https://github.com/giriaruna" 
+                className="p-3 border border-slate-500 text-slate-300 rounded-full hover:bg-white hover:text-black transition-all"
+                target="_blank" rel="noreferrer"
+              >
+                GitHub
+              </a>
+              <a 
+                href="https://linkedin.com/in/giriaruna" 
+                className="p-3 border border-slate-500 text-slate-300 rounded-full hover:bg-white hover:text-black transition-all"
+                target="_blank" rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-
-          {/* Typewriter "know more" button to About page */}
-          <Link
-          to="/about"
-          className="i4 text-white font-semibold bg-gradient-to-r hover:to-blue-900 shadow-lg underline"
-          style={{ fontFamily: "'Dancing Script', cursive", fontSize: '0.5' }}
-          >
-            {typedText}
-            </Link>
         </div>
 
-        {/* Right side: headshot */}
-        <div className="flex-shrink-0 ml-0 md:ml-10 mt-8 md:mt-0 md:self-start">
-          <div className="w-90 h-80 md:w-50 md:h-100 overflow-hidden rounded-full bg-transparent">
-            <img
-              src="/headshot.jpg"
-              alt="Aruna Giri"
-              className="w-full h-full object-cover"
-            />
+        {/* Right side: Clean Headshot */}
+        <div className="flex-shrink-0">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-teal-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="relative w-48 h-48 md:w-64 md:h-64 overflow-hidden rounded-full border-4 border-white border-opacity-10">
+              <img
+                src="/headshot.jpg"
+                alt="Aruna Giri"
+                className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
           </div>
         </div>
       </div>

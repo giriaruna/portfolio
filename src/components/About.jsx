@@ -21,8 +21,15 @@ const tools = [
   "Figma",
 ];
 
-
-const languages = ["English", "Nepali", "Hindi"];
+const courses = [
+  { name: "Data Structures & Algorithms", link: "https://bulletins.nyu.edu/courses/cs_uy/" },
+  { name: "Calculus III", link: "https://bulletins.nyu.edu/courses/ma_uy/" },
+  { name: "Fundamentals of Electric Circuits", link: "https://bulletins.nyu.edu/courses/ece_uy/" },
+  { name: "Digital Logic & State Machine Design", link: "https://bulletins.nyu.edu/courses/cs_uy/" },
+  { name: "Computer Architecture & Organization", link: "https://bulletins.nyu.edu/courses/cs_uy/" },
+  { name: "Data Analysis", link: "https://bulletins.nyu.edu/courses/ma_uy/" },
+  { name: "Data Science for Everyone", link: "https://bulletins.nyu.edu/courses/ds_ua/" },
+];
 
 const AboutSection = () => {
   return (
@@ -42,7 +49,7 @@ const AboutSection = () => {
             </h2>
 
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
-              I am <span className="font-semibold">Aruna Giri</span>, based in New York and Pennsylvania. I'm 20 years old and currently pursuing a{" "}
+              I am <span className="font-semibold">Aruna Giri</span>, based in New York and Pennsylvania, and currently pursuing a{" "}
               <a
                 href="https://bulletins.nyu.edu/undergraduate/engineering/programs/computer-engineering-bs/#curriculumtext"
                 target="_blank"
@@ -56,31 +63,15 @@ const AboutSection = () => {
             <br />
 
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
-              From a young age, I've been fascinated by how things work and loved solving problems. That curiosity led me to engineering, where I combine creativity, logic, and problem-solving. My interests span{" "}
-              <a
-                href="https://github.com/nikopj/introml/tree/master"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold underline text-blue-400 hover:text-blue-500"
-              >
-                Machine Learning
-              </a>
-              ,{" "}
-              <a
-                href="https://www.nyu.edu/content/dam/nyu/globalPrgms/documents/paris/academics/Syllabi/fall-2025/Syl_Paris_DS-UA%209111_Instructor_Semester.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold underline text-blue-400 hover:text-blue-500"
-              >
-                Data Science
-              </a>
-              , and{" "}
-              <span className="font-semibold text-blue-400">Full-Stack Development</span>.
+              I am driven by a strong interest in building efficient, reliable, and impactful systems. My academic experience has allowed me to develop a solid foundation in software development, data-driven analysis, and hardware-software integration through projects and collaborative coursework.
             </p>
             <br />
 
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-200">
-              Beyond coding, I love traveling, learning new skills, and finding creative ways to turn concepts into impactful solutions. I believe in continuous growth.
+              My technical interests include{" "}
+              <span className="font-semibold text-blue-400">Machine Learning</span>,{" "}
+              <span className="font-semibold text-blue-400">Data Science</span>, and{" "}
+              <span className="font-semibold text-blue-400">Full-Stack Development</span>, particularly in applying these skills to solve real-world problems. I enjoy working in team environments, learning new technologies, and continuously improving my technical and problem-solving abilities.
             </p>
           </div>
 
@@ -92,7 +83,10 @@ const AboutSection = () => {
             </h2>
             <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-8">
               {technicalSkills.map((item, idx) => (
-                <p key={idx} className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition">
+                <p
+                  key={idx}
+                  className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition"
+                >
                   {item}
                 </p>
               ))}
@@ -104,25 +98,31 @@ const AboutSection = () => {
             </h2>
             <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-8">
               {tools.map((item, idx) => (
-                <p key={idx} className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition">
+                <p
+                  key={idx}
+                  className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition"
+                >
                   {item}
                 </p>
               ))}
             </div>
-
-            {/* Languages */}
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-indigo-600 dark:text-indigo-300">
-              Languages I Speak
-            </h2>
-            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-              {languages.map((item, idx) => (
-                <p key={idx} className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition">
-                  {item}
-                </p>
+             {/* Relevant Coursework - Now with clickable links */}
+            <h3 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-300">
+              Relevant Coursework
+            </h3>
+            <div clrsName="flex flex-wrap gap-x-4 gap-y-3 justify-center md:justify-start">
+              {courses.map((course, idx) => (
+                <a
+                  key={idx}
+                  href={course.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 underline hover:text-indigo-500 transition font-medium text-sm md:text-base"
+                >
+                  {course.name}
+                </a>
               ))}
             </div>
-
-            {/* Footer */}
           </div>
         </div>
       </div>

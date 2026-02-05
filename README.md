@@ -1,12 +1,12 @@
 # Aruna Giri - Portfolio Website
 
-A modern, responsive portfolio website showcasing my projects, skills, and 
+My portfolio website showcasing my projects, skills, and 
 experience as a Computer Engineering student. Built with React, Three.js, and 
 Tailwind CSS featuring interactive 3D elements and smooth animations.
 
 ## 🚀 Live Demo
 
-[View Live Portfolio](https://portfolio-1-bay.vercel.app/)
+[My Live Portfolio](https://giriaruna.vercel.app/)
 
 ## 📋 Features
 

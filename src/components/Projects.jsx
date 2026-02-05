@@ -1,97 +1,152 @@
 "use client";
 
 import React from "react";
-import { BsGithub, BsArrowUpRightSquare } from "react-icons/bs";
+import { BsGithub, BsArrowUpRightSquare, BsPlayCircle } from "react-icons/bs";
 import SlideUp from "./slide-up";
 
 const projects = [
   {
+    name: "SmartCane – Intelligent Mobility Aid",
+    subtitle: "Impact Innovation · Senior Design Project",
+    date: "Fall 2025 - Present",
+    mode: "In-Person",
+    location: "NYU Tandon, Brooklyn, NY",
+    description: `Collaborating on a smart mobility device for senior design, focusing on safety features like fall detection and GPS tracking. Defined the system architecture and led the business proposal development to align technical goals with user accessibility needs.`,
+    link: "https://docs.google.com/presentation/d/1-OQFd4vXVDVsDrPhBegKeSOI-KXySBJXEBTY7-uAC1A/edit",
+  },
+  {
+    name: "Heart Disease Classification",
+    subtitle: "Machine Learning · Team Course Project",
+    date: "Spring 2025",
+    mode: "In-Person",
+    location: "NYU Tandon, Brooklyn, NY",
+    description: `Engineered a diagnostic pipeline using the UCI Heart Disease dataset. Trained and evaluated Logistic Regression, KNN, and Random Forest models, identifying Random Forest as the optimal model with 88.5% Accuracy. Deployed the solution as a Streamlit web app for real-time risk visualization.`,
+    github: "https://github.com/giriaruna/heart_disease",
+    link: "https://mlprojectheartdiease.streamlit.app/",
+  },
+  {
     name: "Interactive Data Science Dashboard",
-    subtitle: "Project Happiness",
-    description: `
-      An interactive web app built with Streamlit using the World Happiness Report 2023 dataset. 
-      It explores factors affecting happiness (GDP, life expectancy, freedom), 
-      visualizes data through heatmaps, pair plots, and regression graphs, 
-      and predicts life expectancy from happiness scores using machine learning models.
-    `,
-    image: "/project-happiness.png", 
+    subtitle: "Data Science for Everyone · Team Course Project",
+    date: "Fall 2024",
+    mode: "In-Person",
+    location: "NYU Paris",
+    description: `Developed an interactive Streamlit web app using the World Happiness Report 2023. Performed statistical data analysis to explore correlations between GDP, life expectancy, and social support using visual analytics and regression models.`,
     github: "https://github.com/giriaruna/project_happiness",
     link: "https://projecthappiness.streamlit.app/",
+  },
+  {
+    name: "Creative Physical Computing (VIP)",
+    subtitle: "NYU Vertically Integrated Projects · Team Member",
+    date: "Spring 2023 – 2024",
+    mode: "In-Person",
+    location: "NYU Tandon, Brooklyn, NY",
+    description: `Assembled hardware for an interactive mural using precision soldering and Arduino pin mapping for a project showcase. Additionally, developed structural prototypes for the "Interactive Flower Bookshelf" using CAD tools and laser cutting. Note: This project focused on the conceptual prototyping phase; it is a proof-of-concept rather than a final working model.`,
+    image: "/vip_showcase.png",
+    videoLink: "https://drive.google.com/file/d/1i59rKBjBGAXsNeKhpRjLTPix8MOKuUy3/view?usp=sharing",
   },
 ];
 
 const ProjectsSection = () => {
   return (
-    <section
-      id="projects"
-      className="pt-24 pb-16 bg-white dark:bg-gray-800" // Changed py-16 to pt-24 pb-16 and added background
-    >
-      {/* Section Header */}
+    <section id="projects" className="pt-24 pb-16 bg-white dark:bg-gray-800">
       <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
         Projects
-        <hr className="w-6 h-1 mx-auto my-4 bg-teal-500 border-0 rounded" />
+        <hr className="w-8 h-1 mx-auto my-4 bg-blue-500 border-0 rounded" />
       </h1>
 
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        {projects.map((project, idx) => (
-          <div key={idx}>
-            <SlideUp offset="-300px 0px -300px 0px">
-              <div className="flex flex-col md:flex-row md:items-center md:space-x-12">
-                
-                {/* Project Image - LEFT SIDE - RESIZED */}
-                <div className="md:w-2/5 mb-6 md:mb-0 flex-shrink-0">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block"
-                  >
+      <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-16">
+        {projects.map((project, idx) => {
+          const isReversed = idx % 2 !== 0;
+
+          return (
+            <SlideUp key={idx} offset="-200px 0px -200px 0px">
+              <div
+                className={`rounded-2xl shadow-md hover:shadow-xl transition bg-gray-50 dark:bg-gray-900 p-8 ${
+                  project.image
+                    ? `flex flex-col ${
+                        isReversed ? "md:flex-row-reverse" : "md:flex-row"
+                      } gap-10 items-center`
+                    : "block"
+                }`}
+              >
+                {/* Image Container */}
+                {project.image && (
+                  <div className="w-full md:w-2/5">
                     <img
                       src={project.image}
                       alt={project.name}
-                      className="w-full h-48 md:h-56 lg:h-64 object-cover rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+                      className="w-full h-auto object-cover rounded-xl shadow-md"
                     />
-                  </a>
-                </div>
+                  </div>
+                )}
 
-                {/* Project Info - RIGHT SIDE - ADJUSTED FONTS */}
-                <div className="md:w-3/5">
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100 leading-tight">
+                {/* Content Container */}
+                <div className={project.image ? "w-full md:w-3/5" : "w-full"}>
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {project.name}
                   </h2>
-                  <p className="text-base md:text-lg leading-relaxed mb-4 text-gray-700 dark:text-gray-300">
+
+                  <div className="flex flex-wrap gap-2 mb-4 text-sm">
+                    {[project.date, project.mode, project.location].map(
+                      (item, i) => (
+                        <span
+                          key={i}
+                          className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium"
+                        >
+                          {item}
+                        </span>
+                      )
+                    )}
+                  </div>
+
+                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line mb-4 leading-relaxed">
                     {project.description}
                   </p>
-                  {/* Project Subtitle - Italics Below Description */}
-                  <p className="text-lg md:text-xl italic text-teal-600 dark:text-teal-400 mb-6 font-medium">
+
+                  <p className="italic text-blue-600 dark:text-blue-400 mb-6 font-medium text-sm">
                     {project.subtitle}
                   </p>
-                  <div className="flex items-center space-x-4">
-                    <a 
-                      href={project.github} 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="flex items-center space-x-2 text-gray-900 dark:text-gray-100 hover:text-teal-500 dark:hover:text-teal-400 transition-colors text-sm md:text-base"
-                    >
-                      <BsGithub size={20} />
-                      <span className="font-medium">GitHub</span>
-                    </a>
-                    <a 
-                      href={project.link} 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="flex items-center space-x-2 text-gray-900 dark:text-gray-100 hover:text-teal-500 dark:hover:text-teal-400 transition-colors text-sm md:text-base"
-                    >
-                      <BsArrowUpRightSquare size={20} />
-                      <span className="font-medium">Live Demo</span>
-                    </a>
+
+                  <div className="flex flex-wrap items-center gap-6">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
+                      >
+                        <BsGithub size={20} />
+                        GitHub
+                      </a>
+                    )}
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
+                      >
+                        <BsArrowUpRightSquare size={20} />
+                        View Project
+                      </a>
+                    )}
+                    {project.videoLink && (
+                      <a
+                        href={project.videoLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
+                      >
+                        <BsPlayCircle size={20} />
+                        Watch Prototype Video
+                      </a>
+                    )}
                   </div>
                 </div>
-
               </div>
             </SlideUp>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
