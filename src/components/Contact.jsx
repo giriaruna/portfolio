@@ -9,59 +9,63 @@ const Contact = () => {
   const formRef = useRef();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-    const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus(""); 
     
-    // Simple check to make sure fields aren't empty
     if (!form.name || !form.email || !form.message) {
-      alert("Please fill out all the fields so I know how to reach you!");
+      alert("Oops! Please fill out all the fields so I can get your message! 🌸");
+      setLoading(false);
       return;
     }
 
-    console.log("Using Public Key:", import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY); // Check if this is empty
-
-
+    // 1. Send the Notification to YOU (Luna)
     emailjs
       .send(
         import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_ME,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_ME, // This is template_u6kytjq
         {
           from_name: form.name,
-          to_name: "Aruna Giri",
           from_email: form.email,
-          to_email: "ag8876@nyu.edu",
           message: form.message,
+          to_name: "Aruna Giri",
         },
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
       )
+      .then(() => {
+        // 2. Send the Auto-Reply to THEM (The Sender)
+        return emailjs.send(
+          import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_SENDER, // This is template_r0f4ydm
+          {
+            from_name: form.name,
+            from_email: form.email,
+          },
+          import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+        );
+      })
       .then(
         () => {
           setLoading(false);
-          // Friendly and informal thank you message
-          alert(`Thanks so much, ${form.name}! I've received your message and 
-            I'll get back to you as soon as I can. Catch you later!`);
-
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
+          setStatus("success"); 
+          setForm({ name: "", email: "", message: "" });
+          setTimeout(() => setStatus(""), 6000);
         },
         (error) => {
           setLoading(false);
-          console.error("EmailJS Error Details:", error); // Look at this in your browser console!
-        alert("Ahh, something went wrong. Check the console for the error!");
-      }
+          setStatus("error");
+          console.error("EmailJS Error Details:", error);
+        }
       );
   };
-
 
   return (
     <section className="py-16 bg-white dark:bg-gray-800">
@@ -116,8 +120,21 @@ const Contact = () => {
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 py-3 px-8 rounded-xl text-white font-bold shadow-lg transition-colors"
               >
-                {loading ? "Sending..." : "Send"}
+                {loading ? "Sending... ✨" : "Send 💌"}
               </button>
+
+              {/* SWEET STATUS MESSAGES */}
+              {status === "success" && (
+                <p className="text-green-500 font-semibold text-center mt-4">
+                  Yay! Your message is on its way to me! 🎀 I'll read it soon and get back to you. Have a lovely day! ✨
+                </p>
+              )}
+              {status === "error" && (
+                <p className="text-red-500 font-semibold text-center mt-4 leading-relaxed">
+                  Oh no! There is a little glitch... 🤖💔 <br/>
+                  Could you try again, or just message me directly at <span className="underline">ag8876@nyu.edu</span>? 🌷
+                </p>
+              )}
             </form>
           </motion.div>
 
