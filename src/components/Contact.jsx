@@ -15,46 +15,53 @@ const Contact = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Simple check to make sure fields aren't empty
+    if (!form.name || !form.email || !form.message) {
+      alert("Please fill out all the fields so I know how to reach you!");
+      return;
+    }
 
-    try {
-      // Send to YOU (Aruna)
-      await emailjs.send(
+    console.log("Using Public Key:", import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY); // Check if this is empty
+
+
+    emailjs
+      .send(
         import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_ME,
         {
           from_name: form.name,
-          from_email: form.email,
           to_name: "Aruna Giri",
+          from_email: form.email,
           to_email: "ag8876@nyu.edu",
           message: form.message,
         },
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      );
+      )
+      .then(
+        () => {
+          setLoading(false);
+          // Friendly and informal thank you message
+          alert(`Thanks so much, ${form.name}! I've received your message and 
+            I'll get back to you as soon as I can. Catch you later!`);
 
-      // Send Auto-Reply to THEM
-      await emailjs.send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID_TO_SENDER,
-        {
-          from_name: form.name,
-          to_name: form.name,
-          to_email: form.email,
+          setForm({
+            name: "",
+            email: "",
+            message: "",
+          });
         },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+        (error) => {
+          setLoading(false);
+          console.error("EmailJS Error Details:", error); // Look at this in your browser console!
+        alert("Ahh, something went wrong. Check the console for the error!");
+      }
       );
-
-      alert("Thank you! Your message has been sent successfully.");
-      setForm({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
   };
+
 
   return (
     <section className="py-16 bg-white dark:bg-gray-800">

@@ -58,7 +58,7 @@ const AboutSection = () => {
               >
                 Bachelor of Science in Computer Engineering
               </a>{" "}
-              at NYU Tandon School of Engineering.
+              at NYU Tandon School of Engineering. I am <span className="font-bold text-indigo-600 dark:text-indigo-300">fully open to relocating</span> for new opportunities.
             </p>
             <br />
 
@@ -71,11 +71,11 @@ const AboutSection = () => {
               My technical interests include{" "}
               <span className="font-semibold text-blue-400">Machine Learning</span>,{" "}
               <span className="font-semibold text-blue-400">Data Science</span>, and{" "}
-              <span className="font-semibold text-blue-400">Full-Stack Development</span>, particularly in applying these skills to solve real-world problems. I enjoy working in team environments, learning new technologies, and continuously improving my technical and problem-solving abilities.
+              <span className="font-semibold text-blue-400">Full-Stack Development</span>. I enjoy working in team environments, learning new technologies, and continuously improving my technical and problem-solving abilities.
             </p>
           </div>
 
-          {/* Right Column - Skills */}
+          {/* Right Column - Skills & Coursework */}
           <div className="md:w-1/2 text-center md:text-left relative">
             {/* Technical Skills */}
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-indigo-600 dark:text-indigo-300">
@@ -85,7 +85,7 @@ const AboutSection = () => {
               {technicalSkills.map((item, idx) => (
                 <p
                   key={idx}
-                  className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition"
+                  className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 text-gray-800 dark:text-blue-300 rounded-lg font-medium text-sm border border-blue-100 dark:border-blue-800 hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm"
                 >
                   {item}
                 </p>
@@ -100,24 +100,25 @@ const AboutSection = () => {
               {tools.map((item, idx) => (
                 <p
                   key={idx}
-                  className="bg-gray-100 dark:bg-gray-700 px-4 py-2 text-gray-800 dark:text-white rounded-lg font-medium shadow-sm hover:scale-105 transform transition"
+                  className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 text-gray-800 dark:text-blue-300 rounded-lg font-medium text-sm border border-blue-100 dark:border-blue-800 hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm"
                 >
                   {item}
                 </p>
               ))}
             </div>
-             {/* Relevant Coursework - Now with clickable links */}
+
+             {/* Relevant Coursework - Fixed Spacing and Layout */}
             <h3 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-300">
               Relevant Coursework
             </h3>
-            <div clrsName="flex flex-wrap gap-x-4 gap-y-3 justify-center md:justify-start">
+            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
               {courses.map((course, idx) => (
                 <a
                   key={idx}
                   href={course.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 underline hover:text-indigo-500 transition font-medium text-sm md:text-base"
+                  className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 text-gray-800 dark:text-blue-300 rounded-lg font-medium text-sm border border-blue-100 dark:border-blue-800 hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-sm"
                 >
                   {course.name}
                 </a>

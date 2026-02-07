@@ -71,19 +71,20 @@ const Home = () => {
         <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
 
-      {/* Glassmorphism Info Box */}
-      <div className="absolute z-10 max-w-5xl w-[90%] flex flex-col md:flex-row items-center bg-white bg-opacity-5 border border-white border-opacity-10 backdrop-blur-xl shadow-2xl rounded-3xl p-8 md:p-12 gap-10">
+      {/* Glassmorphism Info Box - Made wider (max-w-6xl) */}
+      <div className="absolute z-10 max-w-6xl w-[92%] flex flex-col md:flex-row items-center bg-white bg-opacity-5 border border-white border-opacity-10 backdrop-blur-xl shadow-2xl rounded-[3rem] p-6 md:p-10 lg:p-14 gap-8 md:gap-12">
         
         {/* Left side: Professional Intro */}
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-2">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-2 leading-tight">
             Aruna Giri
           </h1>
-          <h2 className="text-xl md:text-2xl font-medium text-blue-400 mb-6 uppercase tracking-widest">
+          <h2 className="text-lg md:text-xl font-medium text-blue-400 mb-6 uppercase tracking-widest">
             Computer Engineering | Class of 2026
           </h2>
           
-          <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
+          {/* Font size adjusted for better fit (text-base to lg) */}
+          <p className="text-base md:text-lg lg:text-xl text-slate-300 mb-8 leading-relaxed max-w-2xl">
             I am a student at <span className="text-white font-semibold">NYU Tandon</span> currently 
             <span className="text-blue-400 font-bold"> seeking internship and full-time opportunities.</span> 
             I love building full-stack web applications and using machine learning to turn complex data into real-world solutions.
@@ -93,12 +94,12 @@ const Home = () => {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <a 
               href="https://drive.google.com/file/d/1fA7f8__7bgjuR5XgDbKna8YtXpS2zO3h/view?usp=drive_link" 
-              className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-500 transition-all transform hover:scale-105 shadow-lg"
+              className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-500 transition-all transform hover:scale-105 shadow-lg whitespace-nowrap"
               target="_blank" rel="noreferrer"
             >
               View Resume
             </a>
-            <div className="flex gap-4">
+            <div className="flex gap-3 lg:gap-4">
               <a 
                 href="https://github.com/giriaruna" 
                 className="p-3 border border-slate-500 text-slate-300 rounded-full hover:bg-white hover:text-black transition-all"
@@ -117,15 +118,18 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Right side: Clean Headshot */}
+        {/* Right side: Modern Rounded Rectangle (Squircle) Headshot */}
         <div className="flex-shrink-0">
           <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-teal-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative w-48 h-48 md:w-64 md:h-64 overflow-hidden rounded-full border-4 border-white border-opacity-10">
+            {/* Subtle Glow Background */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-[3rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+            
+            {/* The Image Container - Soft Rectangle Shape */}
+            <div className="relative w-56 h-64 md:w-72 md:h-80 lg:w-80 lg:h-96 overflow-hidden rounded-[3rem] border border-white/10 shadow-2xl bg-gray-900">
               <img
                 src="/headshot.jpg"
                 alt="Aruna Giri"
-                className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+                className="w-full h-full object-cover object-center scale-105 hover:scale-110 transition-transform duration-500" 
               />
             </div>
           </div>
