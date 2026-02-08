@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BsGithub, BsArrowUpRightSquare, BsPlayCircle } from "react-icons/bs";
-import SlideUp from "./slide-up";
 
 const projects = [
   {
@@ -47,19 +46,52 @@ const projects = [
 ];
 
 const ProjectsSection = () => {
-  return (
-    <section id="projects" className="pt-24 pb-16 bg-white dark:bg-gray-800">
-      <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
-        Projects
-        <hr className="w-8 h-1 mx-auto my-4 bg-blue-500 border-0 rounded" />
-      </h1>
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
-      <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-16">
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { 
+        threshold: 0.05,
+        rootMargin: "0px 0px -50px 0px"
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  const getAnimationClass = (delay) => 
+    `transition-all duration-1000 ease-out transform ${delay} ${
+      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+    }`;
+
+  return (
+    <section id="projects" ref={sectionRef} className="pt-24 pb-16 bg-white dark:bg-gray-800 overflow-hidden">
+      <div className={getAnimationClass("delay-[100ms]")}>
+        <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
+          Projects
+          <hr className="w-8 h-1 mx-auto my-4 bg-blue-500 border-0 rounded" />
+        </h1>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-16 mt-12">
         {projects.map((project, idx) => {
           const isReversed = idx % 2 !== 0;
+          const delayClass = `delay-[${(idx + 2) * 150}ms]`;
 
           return (
-            <SlideUp key={idx} offset="-200px 0px -200px 0px">
+            <div key={idx} className={getAnimationClass(delayClass)}>
               <div
                 className={`rounded-2xl shadow-md hover:shadow-xl transition bg-gray-50 dark:bg-gray-900 p-8 ${
                   project.image
@@ -69,7 +101,6 @@ const ProjectsSection = () => {
                     : "block"
                 }`}
               >
-                {/* Image Container */}
                 {project.image && (
                   <div className="w-full md:w-2/5">
                     <img
@@ -80,7 +111,6 @@ const ProjectsSection = () => {
                   </div>
                 )}
 
-                {/* Content Container */}
                 <div className={project.image ? "w-full md:w-3/5" : "w-full"}>
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {project.name}
@@ -144,7 +174,7 @@ const ProjectsSection = () => {
                   </div>
                 </div>
               </div>
-            </SlideUp>
+            </div>
           );
         })}
       </div>
