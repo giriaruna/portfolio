@@ -42,7 +42,7 @@ const projects = [
     location: "NYU Tandon, Brooklyn, NY",
     description: `Assembled hardware for an interactive mural using precision soldering and Arduino pin mapping for a project showcase. Additionally, developed structural prototypes for the "Interactive Flower Bookshelf" using CAD tools and laser cutting. Note: This project focused on the conceptual prototyping phase; it is a proof-of-concept rather than a final working model.`,
     image: "/vip_showcase.png",
-    videoLink: "https://drive.google.com/file/d/1i59rKBjBGAXsNeKhpRjLTPix8MOKuUy3/view?usp=sharing",
+    videoLink: "https://drive.google.com/file/d/1ztDvzW6bAtKuHyXYZv-yYNMhfYJ-tLH8/view?usp=sharing",
   },
 ];
 

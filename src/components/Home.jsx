@@ -93,7 +93,7 @@ const Home = () => {
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <a 
-              href="https://drive.google.com/file/d/1fA7f8__7bgjuR5XgDbKna8YtXpS2zO3h/view?usp=drive_link" 
+              href="https://drive.google.com/file/d/1TrAcsxRsBdSZ34Y6ts_PMVXFAPCQjitJ/view?usp=sharing" 
               className="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-500 transition-all transform hover:scale-105 shadow-lg whitespace-nowrap"
               target="_blank" rel="noreferrer"
             >

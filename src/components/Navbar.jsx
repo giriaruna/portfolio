@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from "react";
 import ThemeToggle from "./Theme.Toggle";
 
-export default function Navbar() {
+const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY < lastScrollY || currentScrollY < 10) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
-
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Smooth scroll function
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
@@ -33,29 +29,32 @@ export default function Navbar() {
   return (
     <header
       className={`
-        fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-md
-        transform transition-transform duration-300
+        fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm
+        transform transition-transform duration-500
         ${isVisible ? "translate-y-0" : "-translate-y-full"}
       `}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
-        {/* Logo - Combined Icon and AG Text */}
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-10 py-3">
+        
+        {/* PRO LAYERED LOGO */}
         <div
-          className="relative group flex items-center gap-2 cursor-pointer"
-          onClick={() => scrollToSection("about")} // Changed to go to About Me as requested
+          className="relative group flex items-center justify-center cursor-pointer"
+          onClick={() => scrollToSection("about")}
         >
-          {/* Subtle blue glow effect on hover */}
-          <div className="absolute -inset-2 bg-blue-400/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
+          {/* Larger Icon Background */}
           <img
             src="/icon.ico"
             alt="Logo"
-            className="w-8 h-8 object-contain transform group-hover:rotate-12 transition-transform duration-300"
+            className="absolute w-12 h-12 object-contain opacity-50 group-hover:opacity-40 group-hover:scale-110 transition-all duration-300"
           />
           
-          <p className="text-xl font-bold tracking-tighter bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          {/* Initials on Top - Made smaller (text-xs) and more transparent (opacity-40) */}
+          <p className="relative z-10 text-xl font-black tracking-widest text-blue-600/40 dark:text-blue-400/40 group-hover:text-blue-600/80 dark:group-hover:text-blue-400/80 transition-all duration-300 uppercase">
             AG
           </p>
+
+          {/* Professional Soft Glow */}
+          <div className="absolute inset-0 bg-blue-400/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         </div>
 
         {/* Navigation links */}
@@ -86,11 +85,14 @@ export default function Navbar() {
           </button>
         </nav>
 
-        {/* Theme toggle */}
-        <div className="flex items-center">
-          <ThemeToggle />
+          {/* Professional Divider & Toggle */}
+          <div className="flex items-center border-l border-gray-200 dark:border-gray-800 pl-6">
+            <ThemeToggle />
+          </div>
         </div>
-      </div>
+
     </header>
   );
-}
+};
+
+export default Navbar;
