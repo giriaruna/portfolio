@@ -110,10 +110,10 @@ const Contact = () => {
         
         {/* 1. Centered Header - Minimal margins to eliminate gaps */}
         <div className={`text-center relative z-20 ${getAnimationClass("delay-[100ms]")}`}>
-          <h1 className="font-black text-5xl md:text-6xl text-gray-900 dark:text-white leading-tight">
-            Contact
+          <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
+            Contact 
+            <hr className="w-12 h-1 mx-auto my-6 bg-blue-500 border-0 rounded" />
           </h1>
-          <hr className="w-12 h-1 mx-auto my-2 bg-blue-500 border-0 rounded" />
           <p className="text-blue-500 font-bold uppercase tracking-widest text-[10px]">
             Get in touch
           </p>

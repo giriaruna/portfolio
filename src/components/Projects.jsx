@@ -1,182 +1,184 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { BsGithub, BsArrowUpRightSquare, BsPlayCircle } from "react-icons/bs";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BsGithub, BsArrowUpRightSquare, BsArrowLeft, BsArrowRight, BsPlayCircle } from "react-icons/bs";
 
 const projects = [
   {
     name: "SmartCane – Intelligent Mobility Aid",
     subtitle: "Impact Innovation · Senior Design Project",
-    date: "Fall 2025 - Present",
-    mode: "In-Person",
-    location: "NYU Tandon, Brooklyn, NY",
-    description: `Collaborating on a smart mobility device for senior design, focusing on safety features like fall detection and GPS tracking. Defined the system architecture and led the business proposal development to align technical goals with user accessibility needs.`,
+    description: `Collaborating on a smart mobility device for senior design, focusing on safety features like fall detection and GPS tracking. Defined technical specifications to align hardware constraints with software feasibility.`,
     link: "https://docs.google.com/presentation/d/1-OQFd4vXVDVsDrPhBegKeSOI-KXySBJXEBTY7-uAC1A/edit",
+    color: "from-blue-600 to-cyan-500",
+    tech: ["Stakeholder Analysis", "System Architecture", "IoT"],
+  },
+  {
+    name: "Bootcamp EDA Case Study",
+    subtitle: "Data Science · Loan Default Analysis",
+    description: `Conducted in-depth Exploratory Data Analysis on a dataset of 122 variables to identify primary risk drivers for loan defaults. Discovered critical insights showing bank risk sensors were over-tuned, leading to significant lost profit.`,
+    github: "https://github.com/qeoiruklavmle-ux/Bootcamp_EDA",
+    link: "https://docs.google.com/presentation/d/1wZizGMSXZD_IH-Kq3x94iw-A8vr0Ud5URmRgX-Jx8KI/edit",
+    color: "from-emerald-600 to-teal-500",
+    tech: ["Python", "Pandas", "Statistical Insights"],
+  },
+  {
+    name: "Web Crawling - Normalization Engine",
+    subtitle: "Backend Engineering Project",
+    description: `Engineered a high-performance system to crawl web assets, optimizing throughput by 40%. Designed relational SQL schemas to normalize metadata and ensure thread-safe retrieval for technical datasets.`,
+    github: "https://github.com/giriaruna/backend",
+    color: "from-purple-600 to-blue-500",
+    tech: ["Java", "Maven", "Multi-threading", "SQL"],
   },
   {
     name: "Heart Disease Classification",
-    subtitle: "Machine Learning · Team Course Project",
-    date: "Spring 2025",
-    mode: "In-Person",
-    location: "NYU Tandon, Brooklyn, NY",
-    description: `Engineered a diagnostic pipeline using the UCI Heart Disease dataset. Trained and evaluated Logistic Regression, KNN, and Random Forest models, identifying Random Forest as the optimal model with 88.5% Accuracy. Deployed the solution as a Streamlit web app for real-time risk visualization.`,
+    subtitle: "Machine Learning · Predictive Modeling",
+    description: `Analyzed the UCI Heart Disease dataset to perform feature selection. Built an interactive interface for data exploration and model training using Random Forest (88.5% accuracy).`,
     github: "https://github.com/giriaruna/heart_disease",
     link: "https://mlprojectheartdiease.streamlit.app/",
+    color: "from-red-600 to-orange-500",
+    tech: ["Scikit-Learn", "Streamlit", "Feature Selection"],
   },
   {
-    name: "Interactive Data Science Dashboard",
-    subtitle: "Data Science for Everyone · Team Course Project",
-    date: "Fall 2024",
-    mode: "In-Person",
-    location: "NYU Paris",
-    description: `Developed an interactive Streamlit web app using the World Happiness Report 2023. Performed statistical data analysis to explore correlations between GDP, life expectancy, and social support using visual analytics and regression models.`,
-    github: "https://github.com/giriaruna/project_happiness",
-    link: "https://projecthappiness.streamlit.app/",
+    name: "Interactive Portfolio Website",
+    subtitle: "Full-Stack Project · Three.js & React",
+    description: `Designed and built a responsive, mobile-first SPA showcasing projects and skills. Features immersive 3D visualizations using Three.js and smooth Framer Motion animations.`,
+    github: "https://github.com/giriaruna/portfolio",
+    color: "from-indigo-600 to-blue-700",
+    tech: ["React", "Three.js", "Tailwind CSS"],
   },
   {
     name: "Creative Physical Computing (VIP)",
-    subtitle: "NYU Vertically Integrated Projects · Team Member",
-    date: "Spring 2023 – 2024",
-    mode: "In-Person",
-    location: "NYU Tandon, Brooklyn, NY",
-    description: `Assembled hardware for an interactive mural using precision soldering and Arduino pin mapping for a project showcase. Additionally, developed structural prototypes for the "Interactive Flower Bookshelf" using CAD tools and laser cutting. Note: This project focused on the conceptual prototyping phase; it is a proof-of-concept rather than a final working model.`,
+    subtitle: "NYU Vertically Integrated Projects",
+    description: `Assembled hardware for an interactive mural using precision soldering and Arduino. Developed structural prototypes for the "Interactive Flower Bookshelf" using CAD and laser cutting.`,
     image: "/vip_showcase.png",
     videoLink: "https://drive.google.com/file/d/1ztDvzW6bAtKuHyXYZv-yYNMhfYJ-tLH8/view?usp=sharing",
+    color: "from-pink-500 to-rose-500",
+    tech: ["Arduino", "CAD", "Laser Cutting"],
   },
 ];
 
 const ProjectsSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const project = projects[activeIdx];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { 
-        threshold: 0.05,
-        rootMargin: "0px 0px -50px 0px"
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  const getAnimationClass = (delay) => 
-    `transition-all duration-1000 ease-out transform ${delay} ${
-      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-    }`;
+  const nextProject = () => setActiveIdx((prev) => (prev + 1) % projects.length);
+  const prevProject = () => setActiveIdx((prev) => (prev - 1 + projects.length) % projects.length);
 
   return (
-    <section id="projects" ref={sectionRef} className="pt-24 pb-16 bg-white dark:bg-gray-800 overflow-hidden">
-      <div className={getAnimationClass("delay-[100ms]")}>
-        <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
-          Projects
-          <hr className="w-8 h-1 mx-auto my-4 bg-blue-500 border-0 rounded" />
-        </h1>
-      </div>
+    <section id="projects" className="min-h-screen bg-white dark:bg-[#020617] py-24 flex flex-col items-center justify-center font-['Space_Grotesk'] overflow-hidden transition-colors duration-500">
+      <div className="max-w-7xl w-full px-8">
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-center relative z-20 mb-16"
+        >
+          <h1 className="text-center font-extrabold text-4xl md:text-5xl text-gray-900 dark:text-white">
+            Projects
+            <hr className="w-12 h-1 mx-auto my-6 bg-blue-500 border-0 rounded" />
+          </h1>
+        </motion.div>
 
-      <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-16 mt-12">
-        {projects.map((project, idx) => {
-          const isReversed = idx % 2 !== 0;
-          const delayClass = `delay-[${(idx + 2) * 150}ms]`;
+        {/* 3D Carousel Container */}
+        <div className="relative h-[600px] w-full flex items-center justify-center perspective-[1500px]">
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r ${project.color} opacity-10 blur-[120px] rounded-full transition-all duration-1000`} />
 
-          return (
-            <div key={idx} className={getAnimationClass(delayClass)}>
-              <div
-                className={`rounded-2xl shadow-md hover:shadow-xl transition bg-gray-50 dark:bg-gray-900 p-8 ${
-                  project.image
-                    ? `flex flex-col ${
-                        isReversed ? "md:flex-row-reverse" : "md:flex-row"
-                      } gap-10 items-center`
-                    : "block"
-                }`}
-              >
-                {project.image && (
-                  <div className="w-full md:w-2/5">
-                    <img
-                      src={project.image}
-                      alt={project.name}
-                      className="w-full h-auto object-cover rounded-xl shadow-md"
+          <div className="relative w-full max-w-[1000px] h-full flex items-center justify-center">
+            {projects.map((project, i) => {
+              const isCenter = i === activeIdx;
+              const isLeft = i === (activeIdx - 1 + projects.length) % projects.length;
+              const isRight = i === (activeIdx + 1) % projects.length;
+
+              if (!isCenter && !isLeft && !isRight) return null;
+
+              return (
+                <motion.div
+                  key={i}
+                  initial={false}
+                  animate={{
+                    x: isCenter ? 0 : isLeft ? -350 : 350,
+                    scale: isCenter ? 1 : 0.7,
+                    z: isCenter ? 0 : -300,
+                    rotateY: isCenter ? 0 : isLeft ? 45 : -45,
+                    opacity: isCenter ? 1 : 0.3,
+                  }}
+                  transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                  onClick={() => setActiveIdx(i)}
+                  className={`absolute w-full max-w-[750px] h-[500px] rounded-[3rem] p-10 md:p-16 cursor-pointer border border-gray-200 dark:border-white/10 shadow-2xl bg-gradient-to-br ${project.color} flex flex-col justify-between overflow-hidden`}
+                >
+                  {project.image && (
+                    <img 
+                      src={project.image} 
+                      className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay pointer-events-none"
+                      alt=""
                     />
-                  </div>
-                )}
-
-                <div className={project.image ? "w-full md:w-3/5" : "w-full"}>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {project.name}
-                  </h2>
-
-                  <div className="flex flex-wrap gap-2 mb-4 text-sm">
-                    {[project.date, project.mode, project.location].map(
-                      (item, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium"
-                        >
-                          {item}
+                  )}
+                  
+                  <div className="relative z-10">
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.tech.map((t, idx) => (
+                        <span key={idx} className="px-4 py-1.5 bg-black/20 backdrop-blur-xl rounded-full text-[12px] font-bold text-white uppercase tracking-widest border border-white/10">
+                          {t}
                         </span>
-                      )
-                    )}
+                      ))}
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-bold text-white leading-none tracking-tight mb-4">
+                      {project.name}
+                    </h2>
+                    <h3 className="text-xl md:text-2xl text-white/80 font-medium mb-6">{project.subtitle}</h3>
+                    <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-2xl font-light">
+                      {project.description}
+                    </p>
                   </div>
 
-                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  <p className="italic text-blue-600 dark:text-blue-400 mb-6 font-medium text-sm">
-                    {project.subtitle}
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-6">
+                  <div className="relative z-10 flex flex-wrap gap-8 items-center mt-6">
                     {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
-                      >
-                        <BsGithub size={20} />
-                        GitHub
+                      <a href={project.github} target="_blank" className="text-white hover:scale-125 transition-transform flex items-center gap-2 font-bold">
+                        <BsGithub size={32} />
+                        <span className="hidden md:inline">GitHub</span>
                       </a>
                     )}
                     {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
-                      >
-                        <BsArrowUpRightSquare size={20} />
-                        View Project
+                      <a href={project.link} target="_blank" className="text-white hover:scale-125 transition-transform flex items-center gap-2 font-bold">
+                        <BsArrowUpRightSquare size={32} />
+                        <span className="hidden md:inline">Live Demo</span>
                       </a>
                     )}
                     {project.videoLink && (
-                      <a
-                        href={project.videoLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-500 transition"
-                      >
-                        <BsPlayCircle size={20} />
-                        Watch Prototype Video
+                      <a href={project.videoLink} target="_blank" className="text-white hover:scale-125 transition-transform flex items-center gap-2 font-bold">
+                        <BsPlayCircle size={32} />
+                        <span className="hidden md:inline">Watch Video</span>
                       </a>
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-16 mt-16">
+          <button onClick={prevProject} className="p-6 rounded-full border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all active:scale-90">
+            <BsArrowLeft size={32} />
+          </button>
+          
+          <div className="flex gap-4">
+            {projects.map((_, i) => (
+              <button 
+                key={i} 
+                onClick={() => setActiveIdx(i)} 
+                className={`h-2 transition-all duration-700 rounded-full ${activeIdx === i ? "w-24 bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.6)]" : "w-4 bg-gray-300 dark:bg-white/10"}`} 
+              />
+            ))}
+          </div>
+
+          <button onClick={nextProject} className="p-6 rounded-full border border-gray-300 dark:border-white/10 text-gray-900 dark:text-white hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all active:scale-90">
+            <BsArrowRight size={32} />
+          </button>
+        </div>
       </div>
     </section>
   );
