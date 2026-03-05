@@ -1,201 +1,160 @@
-import React, { Suspense, useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { a } from "@react-spring/three";
-import { OrbitControls } from "@react-three/drei";
-import { motion } from "framer-motion";
-import { BsGithub, BsLinkedin } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import { motion, AnimatePresence } from "framer-motion";
+import { BsGithub, BsLinkedin, BsPlayFill, BsCpu } from "react-icons/bs";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-// 3D Floating background card
-const FloatingCard = () => {
-  const mesh = useRef();
-  useFrame(({ clock }) => {
-    mesh.current.rotation.y = Math.sin(clock.getElapsedTime() / 2) * 0.3;
-    mesh.current.position.y = Math.sin(clock.getElapsedTime()) * 0.2;
-  });
-  return (
-    <a.mesh ref={mesh} position={[0, 0, 0]}>
-      <boxGeometry args={[12, 7, 0.1]} />
-      <meshStandardMaterial
-        color="#3b82f6"
-        roughness={0.1}
-        metalness={0.8}
-        transparent
-        opacity={0.03}
-      />
-    </a.mesh>
-  );
-};
+// Fix for default marker icons in React
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-// Twinkling stars background
-const TwinklingStars = ({ count = 400 }) => {
-  const stars = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < count; i++) {
-      temp.push({
-        position: [(Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100],
-        scale: Math.random() * 0.2 + 0.05,
-      });
-    }
-    return temp;
-  }, [count]);
-
-  return (
-    <>
-      {stars.map((star, i) => (
-        <mesh key={i} position={star.position} scale={[star.scale, star.scale, star.scale]}>
-          <sphereGeometry args={[0.2, 8, 8]} />
-          <meshStandardMaterial color="#60a5fa" emissive="#3b82f6" emissiveIntensity={2} />
-        </mesh>
-      ))}
-    </>
-  );
-};
+let DefaultIcon = L.icon({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const Home = () => {
-  const [show, setShow] = useState(false);
-  const [displayText, setDisplayText] = useState("");
-  const fullText = "I'm a student at NYU Tandon building full-stack applications and exploring machine learning. I love turning complex data into real-world solutions and I'm always ready to learn whatever is needed to get the job done.";
+  const [showHUD, setShowHUD] = useState(false);
+  const center = [40.6942, -73.9866]; // NYU Tandon / Brooklyn
 
-  // Automatic Dark Mode Detection Logic
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const applyTheme = (e) => {
-      if (e.matches) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    };
-
-    applyTheme(mediaQuery); // Initial check
-    mediaQuery.addEventListener('change', applyTheme);
-    
-    setShow(true);
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      setDisplayText(fullText.slice(0, i));
-      i++;
-      if (i > fullText.length) clearInterval(typingInterval);
-    }, 25);
-
-    return () => {
-      mediaQuery.removeEventListener('change', applyTheme);
-      clearInterval(typingInterval);
-    };
+    const timer = setTimeout(() => setShowHUD(true), 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <section className="relative w-screen h-screen flex items-center justify-center bg-white dark:bg-[#020617] overflow-hidden font-['Space_Grotesk'] transition-colors duration-700">
+    <section className="relative w-screen h-screen bg-[#020617] overflow-hidden font-['Space_Grotesk']">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700;900&display=swap');
         
-        .glitch-hover:hover {
-          animation: glitch 0.4s cubic-bezier(.25,.46,.45,.94) both infinite;
+        /* Cinematic Effects */
+        .video-grain {
+          position: fixed;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background: url('https://grainy-gradients.vercel.app/noise.svg');
+          opacity: 0.06;
+          pointer-events: none;
+          z-index: 40;
         }
 
-        @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-3px, 2px); filter: hue-rotate(90deg) contrast(1.2); }
-          40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg) brightness(1.1); }
-          60% { transform: translate(3px, 2px); filter: hue-rotate(270deg) contrast(1.2); }
-          80% { transform: translate(2px, -3px); filter: hue-rotate(360deg) brightness(1.1); }
-          100% { transform: translate(0); }
+        .hud-border {
+          border: 1px solid rgba(59, 130, 246, 0.3);
+          background: rgba(2, 6, 23, 0.8);
+          backdrop-filter: blur(12px);
         }
 
-        .glass-box {
-          background: rgba(0, 0, 0, 0.02);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
-          border: 1px solid rgba(0, 0, 0, 0.08);
+        .scanline {
+          width: 100%; height: 2px;
+          background: rgba(59, 130, 246, 0.2);
+          position: absolute;
+          z-index: 10;
+          animation: scan 6s linear infinite;
         }
-        
-        .dark .glass-box {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+
+        @keyframes scan {
+          0% { top: 0%; }
+          100% { top: 100%; }
+        }
+
+        /* Make the free map look dark and high-contrast */
+        .leaflet-container {
+          background: #020617 !important;
+          filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
         }
       `}</style>
 
-      {/* 3D Scene Background */}
-      <div className="absolute inset-0 z-0 opacity-40 dark:opacity-100 transition-opacity duration-700">
-        <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1.5} color="#3b82f6" />
-          <Suspense fallback={null}>
-            <TwinklingStars />
-            <FloatingCard />
-          </Suspense>
-          <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4} />
-        </Canvas>
-      </div>
+      <div className="video-grain" />
+      <div className="scanline" />
 
-      {/* Main Container - Perfectly Centered */}
-      <div className="relative z-10 w-full flex justify-center items-center px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="max-w-5xl w-full glass-box rounded-[4rem] p-10 md:p-16 flex flex-col md:flex-row items-center gap-12 md:gap-20 shadow-2xl shadow-black/50"
+      {/* 100% Free Leaflet Map */}
+      <div className="absolute inset-0 z-0">
+        <MapContainer 
+          center={center} 
+          zoom={13} 
+          zoomControl={false} 
+          scrollWheelZoom={false}
+          dragging={false}
+          style={{ height: "100%", width: "100%" }}
         >
-          {/* Left Side: Staggered Content */}
-          <div className="flex-1 text-center md:text-left">
-            <div className={`inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-blue-400 text-[10px] font-bold tracking-widest uppercase mb-8 transition-all duration-700 delay-[200ms] ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              Engineering @ NYU
-            </div>
-            
-            <h1 className={`text-6xl md:text-[100px] font-black text-gray-900 dark:text-white mb-6 tracking-tighter uppercase leading-none transition-all duration-700 delay-[400ms] ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              ARUNA
-            </h1>
-            
-            <p className="text-base md:text-xl text-gray-600 dark:text-slate-300 mb-10 leading-relaxed font-light max-w-lg min-h-[80px]">
-              {displayText}<span className="animate-pulse text-blue-500 ml-1">|</span>
-            </p>
-
-            <div className={`flex flex-wrap gap-5 justify-center md:justify-start items-center transition-all duration-700 delay-[800ms] ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-              <a 
-                href="https://drive.google.com/file/d/1TrAcsxRsBdSZ34Y6ts_PMVXFAPCQjitJ/view?usp=sharing"
-                className="px-10 py-4 bg-blue-600 text-white dark:bg-white dark:text-black rounded-full font-bold hover:bg-blue-700 dark:hover:bg-blue-500 dark:hover:text-white transition-all transform active:scale-95 shadow-xl"
-                target="_blank" rel="noreferrer"
-              >
-                View Resume
-              </a>
-              
-              <div className="flex gap-4">
-                <a 
-                  href="https://github.com/giriaruna" 
-                  target="_blank" rel="noreferrer"
-                  className="p-4 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-all flex items-center justify-center group"
-                >
-                  <BsGithub size={24} className="group-hover:rotate-12 transition-transform" />
-                </a>
-                <a 
-                  href="https://linkedin.com/in/giriaruna" 
-                  target="_blank" rel="noreferrer"
-                  className="p-4 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-all flex items-center justify-center group"
-                >
-                  <BsLinkedin size={24} className="group-hover:-rotate-12 transition-transform" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: Profile Photo with Hover Glitch */}
-          <div className={`flex-shrink-0 relative transition-all duration-700 delay-[600ms] ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            <div className="relative w-64 h-80 md:w-80 md:h-[26rem] group">
-              <div className="absolute inset-[-20px] bg-blue-500/10 blur-[60px] rounded-full group-hover:bg-blue-500/30 transition-all duration-1000" />
-              
-              <div className="relative w-full h-full overflow-hidden rounded-[3rem] border border-gray-200 dark:border-white/10 shadow-2xl transition-all duration-500 group-hover:scale-[1.03] glitch-hover">
-                <img
-                  src="/headshot.jpg"
-                  alt="Aruna"
-                  className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          />
+          <Marker position={center} />
+        </MapContainer>
       </div>
+
+      {/* HUD Interface Overlay */}
+      <AnimatePresence>
+        {showHUD && (
+          <div className="relative z-50 w-full h-full p-8 pointer-events-none flex flex-col justify-between">
+            
+            {/* Top HUD */}
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex justify-between items-start"
+            >
+              <div className="hud-border p-4 rounded-lg flex items-center gap-4 pointer-events-auto">
+                <div className="w-12 h-12 rounded-full border-2 border-blue-500 p-1 overflow-hidden bg-slate-800">
+                  <img src="/headshot.jpg" alt="Aruna" className="w-full h-full object-cover rounded-full" />
+                </div>
+                <div>
+                  <h2 className="text-white font-bold text-sm tracking-widest uppercase">Aruna // Engineering</h2>
+                  <p className="text-blue-400 text-[10px] font-mono flex items-center gap-1">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full animate-ping" /> FREE_NODE_LIVE
+                  </p>
+                </div>
+              </div>
+
+              <div className="hud-border p-4 rounded-lg pointer-events-auto text-right font-mono">
+                <div className="text-blue-400 text-[10px] mb-1">LOCATION_DATA</div>
+                <div className="text-white text-xs tracking-tighter">40.6942° N, 73.9866° W</div>
+              </div>
+            </motion.div>
+
+            {/* Bottom HUD */}
+            <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="hud-border p-6 rounded-2xl max-w-sm pointer-events-auto"
+              >
+                <BsCpu className="text-blue-500 mb-4" size={24} />
+                <h3 className="text-white font-bold text-xl mb-2">NYU Tandon Student</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  20-year-old engineering student building the future of full-stack and machine learning.
+                </p>
+                <div className="flex gap-4">
+                  <a href="https://github.com/giriaruna" target="_blank" rel="noreferrer" className="text-white hover:text-blue-400 transition-colors"><BsGithub size={20}/></a>
+                  <a href="https://linkedin.com/in/giriaruna" target="_blank" rel="noreferrer" className="text-white hover:text-blue-400 transition-colors"><BsLinkedin size={20}/></a>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="pointer-events-auto"
+              >
+                <a 
+                  href="https://drive.google.com/file/d/1TrAcsxRsBdSZ34Y6ts_PMVXFAPCQjitJ/view?usp=sharing"
+                  target="_blank" rel="noreferrer"
+                  className="group flex items-center gap-4 bg-white text-black px-10 py-5 rounded-full font-black tracking-tighter hover:bg-blue-600 hover:text-white transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                >
+                  VIEW RESUME <BsPlayFill size={24} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Cinematic Frame */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-[60] border-[15px] border-[#020617]" />
     </section>
   );
 };
