@@ -6,55 +6,54 @@ import { BsGithub, BsArrowUpRightSquare, BsArrowLeft, BsArrowRight, BsPlayCircle
 
 const projects = [
   {
+    name: "BTS: The Quantum Leap",
+    subtitle: "Predictive Engineering Audit · Data Science",
+    description: `Engineered an automated data pipeline using Python (Pandas, NumPy) to analyze world tour datasets and World Bank economic indicators. Developed a predictive revenue model forecasting USD 108M in revenue and a 15.1% tourism surge.`,
+    github: "https://github.com/giriaruna/bts-tour-analysis",
+    color: "from-orange-600 to-yellow-500",
+    tech: ["Python", "Pandas", "Data Engineering"],
+  },
+  {
     name: "SmartCane – Intelligent Mobility Aid",
     subtitle: "Impact Innovation · Senior Design Project",
-    description: `Collaborating on a smart mobility device for senior design, focusing on safety features like fall detection and GPS tracking. Defined technical specifications to align hardware constraints with software feasibility.`,
+    description: `Developing an IoT device integrating ESP32 with IMU sensors for real-time gait analysis. Engineering fall-detection algorithms analyzing acceleration spikes to trigger autonomous emergency alerts.`,
     link: "https://docs.google.com/presentation/d/1-OQFd4vXVDVsDrPhBegKeSOI-KXySBJXEBTY7-uAC1A/edit",
     color: "from-blue-600 to-cyan-500",
-    tech: ["Stakeholder Analysis", "System Architecture", "IoT"],
+    tech: ["ESP32", "IoT", "System Architecture"],
   },
   {
     name: "Bootcamp EDA Case Study",
     subtitle: "Data Science · Loan Default Analysis",
-    description: `Conducted in-depth Exploratory Data Analysis on a dataset of 122 variables to identify primary risk drivers for loan defaults. Discovered critical insights showing bank risk sensors were over-tuned, leading to significant lost profit.`,
+    description: `Identified that 89.68% of refused applicants successfully repaid current loans, revealing risk model over-tuning. Developed 10+ automation scripts for cleaning and statistical modeling using NumPy and Pandas.`,
     github: "https://github.com/qeoiruklavmle-ux/Bootcamp_EDA",
     link: "https://docs.google.com/presentation/d/1wZizGMSXZD_IH-Kq3x94iw-A8vr0Ud5URmRgX-Jx8KI/edit",
     color: "from-emerald-600 to-teal-500",
-    tech: ["Python", "Pandas", "Statistical Insights"],
+    tech: ["Python", "EDA", "Statistical Analysis"],
   },
   {
-    name: "Web Crawling - Normalization Engine",
-    subtitle: "Backend Engineering Project",
-    description: `Engineered a high-performance system to crawl web assets, optimizing throughput by 40%. Designed relational SQL schemas to normalize metadata and ensure thread-safe retrieval for technical datasets.`,
-    github: "https://github.com/giriaruna/backend",
+    name: "Multi-threaded Web Crawler",
+    subtitle: "Systems Research · Concurrency",
+    description: `Architected high-performance crawler using Java ExecutorService with 50 concurrent threads. Implemented thread-safe structures to resolve bottlenecks and achieved a 99% success rate against anti-scraping.`,
+    github: "https://github.com/giriaruna/web_crawling",
     color: "from-purple-600 to-blue-500",
-    tech: ["Java", "Maven", "Multi-threading", "SQL"],
+    tech: ["Java", "Concurrency", "SQL"],
   },
   {
-    name: "Heart Disease Classification",
-    subtitle: "Machine Learning · Predictive Modeling",
-    description: `Analyzed the UCI Heart Disease dataset to perform feature selection. Built an interactive interface for data exploration and model training using Random Forest (88.5% accuracy).`,
-    github: "https://github.com/giriaruna/heart_disease",
-    link: "https://mlprojectheartdiease.streamlit.app/",
-    color: "from-red-600 to-orange-500",
-    tech: ["Scikit-Learn", "Streamlit", "Feature Selection"],
-  },
-  {
-    name: "Interactive Portfolio Website",
-    subtitle: "Full-Stack Project · Three.js & React",
-    description: `Designed and built a responsive, mobile-first SPA showcasing projects and skills. Features immersive 3D visualizations using Three.js and smooth Framer Motion animations.`,
-    github: "https://github.com/giriaruna/portfolio",
+    name: "E20 ISA & Cache Simulator",
+    subtitle: "Computer Architecture · C++",
+    description: `Built functional E20 ISA simulator in C++ to execute machine code. Developed Python-based cache simulator evaluating hit/miss rates, achieving a 23% reduction in system latency through optimization.`,
+    github: "https://github.com/giriaruna/Computer-Arch",
     color: "from-indigo-600 to-blue-700",
-    tech: ["React", "Three.js", "Tailwind CSS"],
+    tech: ["C++", "Python", "Computer Arch"],
   },
   {
     name: "Creative Physical Computing (VIP)",
     subtitle: "NYU Vertically Integrated Projects",
-    description: `Assembled hardware for an interactive mural using precision soldering and Arduino. Developed structural prototypes for the "Interactive Flower Bookshelf" using CAD and laser cutting.`,
+    description: `Assembled hardware for interactive research installations using precision soldering and Arduino. Developed structural prototypes for the "Interactive Flower Bookshelf" using CAD and laser cutting.`,
     image: "/vip_showcase.png",
     videoLink: "https://drive.google.com/file/d/1ztDvzW6bAtKuHyXYZv-yYNMhfYJ-tLH8/view?usp=sharing",
     color: "from-pink-500 to-rose-500",
-    tech: ["Arduino", "CAD", "Laser Cutting"],
+    tech: ["Arduino", "CAD", "HCI"],
   },
 ];
 
@@ -82,7 +81,6 @@ const ProjectsSection = () => {
           </h1>
         </motion.div>
 
-        {/* 3D Carousel Container */}
         <div className="relative h-[600px] w-full flex items-center justify-center perspective-[1500px]">
           <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r ${project.color} opacity-10 blur-[120px] rounded-full transition-all duration-1000`} />
 

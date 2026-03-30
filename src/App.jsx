@@ -8,6 +8,10 @@ import Contact from "./components/Contact";
 import { Analytics } from "@vercel/analytics/next";
 
 function App() {
+  useEffect(() => {
+    document.title = "Aruna Giri | NYU Computer Engineering";
+  }, []);
+  
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-800 scroll-smooth">
       {/* Navbar */}
