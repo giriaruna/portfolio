@@ -14,10 +14,8 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-800 scroll-smooth">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Main content sections */}
       <main className="flex-grow">
         <section id="home" className="min-h-screen">
           <Home />
@@ -36,9 +34,7 @@ function App() {
         </section>
       </main>
 
-      {/* Footer */}
       <Footer />
-
       <Analytics />
     </div>
   );

@@ -179,13 +179,18 @@ const Contact = () => {
             </form>
           </motion.div>
 
-          {/* Massive Globe Section (Right) - Pushed up */}
           <motion.div
-            variants={slideIn("right", "tween", 0.2, 1)}
-            className={`flex-[1.2] w-full h-[450px] md:h-[600px] lg:h-[750px] ${getAnimationClass("delay-[500ms]")}`}
-          >
-            <EarthCanvas />
-          </motion.div>
+        variants={slideIn("right", "tween", 0.2, 1)}
+        className='xl:flex-1 flex justify-center items-center'
+      >
+        <div className="md:w-[550px] md:h-[550px] w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-gray-700 shadow-2xl">
+          <img 
+            src="/headshot.jpg"
+            alt="Engineering Tech" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </motion.div>
           
         </div>
       </div>
